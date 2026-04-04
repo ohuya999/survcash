@@ -42,26 +42,28 @@ export default function Register() {
       if (error) throw error;
 
       if (data.user) {
-        // Simulate M-Pesa STK Push
         toast.success('M-Pesa STK Push sent to ' + phone, {
           description: 'Enter your M-Pesa PIN to pay KSh 200',
         });
 
-        // Simulate payment success after delay
-        setTimeout(async () => {
-          await supabase
-            .from('profiles')
-            .update({ is_paid: true })
-            .eq('id', data.user!.id);
+        // Call STK Push edge function
+        const { data: stkResult, error: stkError } = await supabase.functions.invoke('mpesa-stk-push', {
+          body: { phone, amount: 200, userId: data.user.id },
+        });
 
-          // Handle referral
-          if (referralCode) {
-            await supabase.rpc('increment_referral', { ref_code: referralCode });
-          }
+        if (stkError) throw stkError;
 
+        // Handle referral
+        if (referralCode) {
+          await supabase.rpc('increment_referral', { ref_code: referralCode });
+        }
+
+        if (stkResult?.simulated) {
           toast.success('Payment confirmed! Account activated.');
-          navigate('/dashboard');
-        }, 3000);
+        } else {
+          toast.success('Check your phone and enter your M-Pesa PIN to complete payment.');
+        }
+        navigate('/dashboard');
       }
     } catch (err: any) {
       toast.error(err.message || 'Registration failed');

@@ -58,13 +58,17 @@ export default function Dashboard() {
           <p className="text-muted-foreground mb-6">
             Your account is not yet activated. Please pay KSh 200 via M-Pesa to start earning.
           </p>
-          <Button className="btn-gold rounded-xl px-6 py-5" onClick={() => {
+          <Button className="btn-gold rounded-xl px-6 py-5" onClick={async () => {
             toast.success('M-Pesa STK Push sent! Enter your PIN.');
-            setTimeout(async () => {
-              await supabase.from('profiles').update({ is_paid: true }).eq('id', user!.id);
+            const { data: result, error } = await supabase.functions.invoke('mpesa-stk-push', {
+              body: { phone: profile.phone, amount: 200, userId: user!.id },
+            });
+            if (!error) {
               await refreshProfile();
               toast.success('Account activated!');
-            }, 3000);
+            } else {
+              toast.error('Payment failed. Try again.');
+            }
           }}>
             Pay KSh 200 Now
           </Button>
@@ -115,13 +119,28 @@ export default function Dashboard() {
     }
     setWithdrawLoading(true);
     try {
-      await supabase.from('withdrawals').insert({
+      // Create withdrawal record first
+      const { data: withdrawal, error: insertError } = await supabase.from('withdrawals').insert({
         user_id: user!.id,
         amount: profile.balance,
         phone: profile.phone,
         status: 'pending',
+      }).select().single();
+
+      if (insertError) throw insertError;
+
+      // Call B2C edge function
+      const { data: result, error } = await supabase.functions.invoke('mpesa-b2c', {
+        body: {
+          phone: profile.phone,
+          amount: profile.balance,
+          withdrawalId: withdrawal.id,
+          userId: user!.id,
+        },
       });
-      await supabase.from('profiles').update({ balance: 0 }).eq('id', user!.id);
+
+      if (error) throw error;
+
       await refreshProfile();
       toast.success(`Withdrawal of KSh ${profile.balance} initiated via M-Pesa!`);
     } catch {
