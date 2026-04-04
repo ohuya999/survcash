@@ -14,13 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          is_paid: boolean
+          last_survey_date: string | null
+          phone: string
+          referral_code: string
+          referral_count: number
+          referrer_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id: string
+          is_paid?: boolean
+          last_survey_date?: string | null
+          phone?: string
+          referral_code?: string
+          referral_count?: number
+          referrer_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          is_paid?: boolean
+          last_survey_date?: string | null
+          phone?: string
+          referral_code?: string
+          referral_count?: number
+          referrer_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      survey_completions: {
+        Row: {
+          amount: number
+          completed_at: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          completed_at?: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          completed_at?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      withdrawals: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          phone: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          phone: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          phone?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_referral: { Args: { ref_code: string }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
