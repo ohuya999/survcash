@@ -119,13 +119,28 @@ export default function Dashboard() {
     }
     setWithdrawLoading(true);
     try {
-      await supabase.from('withdrawals').insert({
+      // Create withdrawal record first
+      const { data: withdrawal, error: insertError } = await supabase.from('withdrawals').insert({
         user_id: user!.id,
         amount: profile.balance,
         phone: profile.phone,
         status: 'pending',
+      }).select().single();
+
+      if (insertError) throw insertError;
+
+      // Call B2C edge function
+      const { data: result, error } = await supabase.functions.invoke('mpesa-b2c', {
+        body: {
+          phone: profile.phone,
+          amount: profile.balance,
+          withdrawalId: withdrawal.id,
+          userId: user!.id,
+        },
       });
-      await supabase.from('profiles').update({ balance: 0 }).eq('id', user!.id);
+
+      if (error) throw error;
+
       await refreshProfile();
       toast.success(`Withdrawal of KSh ${profile.balance} initiated via M-Pesa!`);
     } catch {
