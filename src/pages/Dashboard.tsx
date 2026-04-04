@@ -58,13 +58,17 @@ export default function Dashboard() {
           <p className="text-muted-foreground mb-6">
             Your account is not yet activated. Please pay KSh 200 via M-Pesa to start earning.
           </p>
-          <Button className="btn-gold rounded-xl px-6 py-5" onClick={() => {
+          <Button className="btn-gold rounded-xl px-6 py-5" onClick={async () => {
             toast.success('M-Pesa STK Push sent! Enter your PIN.');
-            setTimeout(async () => {
-              await supabase.from('profiles').update({ is_paid: true }).eq('id', user!.id);
+            const { data: result, error } = await supabase.functions.invoke('mpesa-stk-push', {
+              body: { phone: profile.phone, amount: 200, userId: user!.id },
+            });
+            if (!error) {
               await refreshProfile();
               toast.success('Account activated!');
-            }, 3000);
+            } else {
+              toast.error('Payment failed. Try again.');
+            }
           }}>
             Pay KSh 200 Now
           </Button>
