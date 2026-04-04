@@ -82,33 +82,12 @@ export default function Dashboard() {
   const canTakeSurvey = isWeekday() && !isToday(profile.last_survey_date);
   const canWithdraw = profile.balance >= 1000 && profile.referral_count >= 4;
 
-  const handleSurvey = async () => {
+  const handleSurvey = () => {
     if (!canTakeSurvey) {
       toast.error(isWeekday() ? "You've already completed today's survey" : 'Surveys are only available on weekdays');
       return;
     }
-    setSurveyLoading(true);
-    try {
-      const now = new Date().toISOString();
-      await supabase.from('survey_completions').insert({
-        user_id: user!.id,
-        completed_at: now,
-        amount: 50,
-      });
-      await supabase
-        .from('profiles')
-        .update({
-          balance: profile.balance + 50,
-          last_survey_date: now,
-        })
-        .eq('id', user!.id);
-      await refreshProfile();
-      toast.success('Survey completed! KSh 50 added to your balance.');
-    } catch {
-      toast.error('Failed to complete survey');
-    } finally {
-      setSurveyLoading(false);
-    }
+    navigate('/survey');
   };
 
   const handleWithdraw = async () => {
