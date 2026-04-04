@@ -206,10 +206,10 @@ export default function Dashboard() {
             </p>
             <Button
               className="w-full btn-primary rounded-xl py-5 font-semibold"
-              disabled={!canTakeSurvey || surveyLoading}
+              disabled={!canTakeSurvey}
               onClick={handleSurvey}
             >
-              {surveyLoading ? 'Completing...' : canTakeSurvey ? 'Start Survey' : 'Completed'}
+              {canTakeSurvey ? 'Start Survey' : 'Completed'}
             </Button>
           </div>
 
