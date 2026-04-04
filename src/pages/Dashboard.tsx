@@ -165,9 +165,18 @@ export default function Dashboard() {
       <header className="hero-gradient text-primary-foreground">
         <div className="container mx-auto px-4 py-6 flex items-center justify-between">
           <h1 className="font-heading text-xl font-bold">SURVCASH</h1>
-          <Button variant="ghost" size="sm" className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10" onClick={signOut}>
-            <LogOut className="w-4 h-4 mr-2" /> Logout
-          </Button>
+          <div className="flex items-center gap-2">
+            {isAdmin && (
+              <Link to="/admin">
+                <Button variant="ghost" size="sm" className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10">
+                  <Shield className="w-4 h-4 mr-2" /> Admin
+                </Button>
+              </Link>
+            )}
+            <Button variant="ghost" size="sm" className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10" onClick={signOut}>
+              <LogOut className="w-4 h-4 mr-2" /> Logout
+            </Button>
+          </div>
         </div>
       </header>
 
