@@ -22,7 +22,6 @@ export default function Dashboard() {
   const { profile, user, loading, signOut, refreshProfile } = useAuth();
   const { isAdmin } = useAdmin();
   const navigate = useNavigate();
-  const [surveyLoading, setSurveyLoading] = useState(false);
   const [withdrawLoading, setWithdrawLoading] = useState(false);
   const [surveyHistory, setSurveyHistory] = useState<any[]>([]);
 
