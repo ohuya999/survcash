@@ -56,6 +56,7 @@ export type Database = {
       survey_completions: {
         Row: {
           amount: number
+          answers: Json | null
           completed_at: string
           created_at: string
           id: string
@@ -63,6 +64,7 @@ export type Database = {
         }
         Insert: {
           amount?: number
+          answers?: Json | null
           completed_at?: string
           created_at?: string
           id?: string
@@ -70,10 +72,38 @@ export type Database = {
         }
         Update: {
           amount?: number
+          answers?: Json | null
           completed_at?: string
           created_at?: string
           id?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      survey_questions: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          is_active: boolean
+          options: Json
+          question: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          options?: Json
+          question: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          options?: Json
+          question?: string
         }
         Relationships: []
       }

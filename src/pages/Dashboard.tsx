@@ -22,7 +22,6 @@ export default function Dashboard() {
   const { profile, user, loading, signOut, refreshProfile } = useAuth();
   const { isAdmin } = useAdmin();
   const navigate = useNavigate();
-  const [surveyLoading, setSurveyLoading] = useState(false);
   const [withdrawLoading, setWithdrawLoading] = useState(false);
   const [surveyHistory, setSurveyHistory] = useState<any[]>([]);
 
@@ -82,33 +81,12 @@ export default function Dashboard() {
   const canTakeSurvey = isWeekday() && !isToday(profile.last_survey_date);
   const canWithdraw = profile.balance >= 1000 && profile.referral_count >= 4;
 
-  const handleSurvey = async () => {
+  const handleSurvey = () => {
     if (!canTakeSurvey) {
       toast.error(isWeekday() ? "You've already completed today's survey" : 'Surveys are only available on weekdays');
       return;
     }
-    setSurveyLoading(true);
-    try {
-      const now = new Date().toISOString();
-      await supabase.from('survey_completions').insert({
-        user_id: user!.id,
-        completed_at: now,
-        amount: 50,
-      });
-      await supabase
-        .from('profiles')
-        .update({
-          balance: profile.balance + 50,
-          last_survey_date: now,
-        })
-        .eq('id', user!.id);
-      await refreshProfile();
-      toast.success('Survey completed! KSh 50 added to your balance.');
-    } catch {
-      toast.error('Failed to complete survey');
-    } finally {
-      setSurveyLoading(false);
-    }
+    navigate('/survey');
   };
 
   const handleWithdraw = async () => {
@@ -228,10 +206,10 @@ export default function Dashboard() {
             </p>
             <Button
               className="w-full btn-primary rounded-xl py-5 font-semibold"
-              disabled={!canTakeSurvey || surveyLoading}
+              disabled={!canTakeSurvey}
               onClick={handleSurvey}
             >
-              {surveyLoading ? 'Completing...' : canTakeSurvey ? 'Start Survey' : 'Completed'}
+              {canTakeSurvey ? 'Start Survey' : 'Completed'}
             </Button>
           </div>
 
