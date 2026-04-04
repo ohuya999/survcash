@@ -137,10 +137,6 @@ export default function Dashboard() {
     amount: s.amount,
   }));
 
-  const balanceData = [
-    { name: 'Balance', value: profile.balance },
-    { name: 'Referrals', value: profile.referral_count },
-  ];
 
   return (
     <div className="min-h-screen bg-background">
