@@ -15,7 +15,6 @@ export default function Register() {
   const navigate = useNavigate();
   const { refreshProfile } = useAuth();
   const referralCode = searchParams.get('ref') || '';
-  const referralCode = searchParams.get('ref') || '';
 
   const validatePhone = (p: string) => /^2547\d{8}$/.test(p);
 
