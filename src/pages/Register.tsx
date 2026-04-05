@@ -61,6 +61,7 @@ export default function Register() {
         }
 
         if (stkResult?.simulated) {
+          await refreshProfile();
           toast.success('Payment confirmed! Account activated.');
         } else {
           toast.success('Check your phone and enter your M-Pesa PIN to complete payment.');
