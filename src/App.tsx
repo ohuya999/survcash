@@ -10,6 +10,7 @@ import Register from "./pages/Register.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Survey from "./pages/Survey.tsx";
 import Fees from "./pages/Fees.tsx";
+import Leaderboard from "./pages/Leaderboard.tsx";
 import AdminLayout from "./pages/admin/AdminLayout.tsx";
 import AdminOverview from "./pages/admin/AdminOverview.tsx";
 import AdminUsers from "./pages/admin/AdminUsers.tsx";
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/fees" element={<Fees />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/survey" element={<Survey />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminOverview />} />

@@ -5,7 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { DollarSign, Users, ClipboardCheck, LogOut, TrendingUp, Shield } from 'lucide-react';
+import { DollarSign, Users, ClipboardCheck, LogOut, TrendingUp, Shield, Trophy } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 function isWeekday(): boolean {
@@ -234,6 +234,24 @@ export default function Dashboard() {
             >
               {withdrawLoading ? 'Processing...' : canWithdraw ? 'Withdraw Now' : 'Not Eligible'}
             </Button>
+          </div>
+        </div>
+
+        {/* Leaderboard Link */}
+        <div className="card-elevated p-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center">
+                <Trophy className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              </div>
+              <div>
+                <h3 className="font-heading font-semibold">Leaderboard</h3>
+                <p className="text-muted-foreground text-sm">See top earners & most active users</p>
+              </div>
+            </div>
+            <Link to="/leaderboard">
+              <Button variant="outline" className="rounded-xl">View</Button>
+            </Link>
           </div>
         </div>
 
