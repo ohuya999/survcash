@@ -9,8 +9,10 @@ import { DollarSign, Users, ClipboardCheck, LogOut, TrendingUp, Shield, Trophy }
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 function isWeekday(): boolean {
-  const day = new Date().getDay();
-  return day >= 1 && day <= 5;
+  // TODO: Re-enable weekday check after testing
+  // const day = new Date().getDay();
+  // return day >= 1 && day <= 5;
+  return true;
 }
 
 function isToday(dateStr: string | null): boolean {
