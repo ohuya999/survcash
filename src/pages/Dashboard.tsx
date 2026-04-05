@@ -73,6 +73,9 @@ export default function Dashboard() {
           }}>
             Pay KSh 200 Now
           </Button>
+          <Button variant="ghost" className="mt-3 text-sm text-muted-foreground" onClick={() => refreshProfile()}>
+            Already paid? Refresh status
+          </Button>
         </div>
       </div>
     );

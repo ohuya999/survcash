@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,6 +13,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { refreshProfile } = useAuth();
   const referralCode = searchParams.get('ref') || '';
 
   const validatePhone = (p: string) => /^2547\d{8}$/.test(p);
@@ -59,6 +61,7 @@ export default function Register() {
         }
 
         if (stkResult?.simulated) {
+          await refreshProfile();
           toast.success('Payment confirmed! Account activated.');
         } else {
           toast.success('Check your phone and enter your M-Pesa PIN to complete payment.');
