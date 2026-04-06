@@ -5,7 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { DollarSign, Users, ClipboardCheck, LogOut, TrendingUp, Shield, Trophy } from 'lucide-react';
+import { DollarSign, Users, ClipboardCheck, LogOut, TrendingUp, Shield, Trophy, Copy, Share2 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 function isWeekday(): boolean {
