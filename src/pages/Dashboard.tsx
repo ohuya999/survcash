@@ -239,12 +239,56 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Referral Sharing */}
+        <div className="card-elevated p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
+              <Share2 className="w-5 h-5 text-accent-foreground" />
+            </div>
+            <div>
+              <h3 className="font-heading font-semibold">Invite & Earn</h3>
+              <p className="text-muted-foreground text-sm">Earn KSh 50 for each referral</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 bg-muted rounded-xl p-3">
+            <code className="flex-1 text-sm truncate text-foreground">
+              {`${window.location.origin}/register?ref=${profile.referral_code}`}
+            </code>
+            <Button
+              variant="outline"
+              size="sm"
+              className="shrink-0 rounded-lg"
+              onClick={() => {
+                navigator.clipboard.writeText(`${window.location.origin}/register?ref=${profile.referral_code}`);
+                toast.success('Referral link copied!');
+              }}
+            >
+              <Copy className="w-4 h-4 mr-1" /> Copy
+            </Button>
+          </div>
+          {navigator.share && (
+            <Button
+              variant="secondary"
+              className="w-full mt-3 rounded-xl"
+              onClick={() => {
+                navigator.share({
+                  title: 'Join SURVCASH',
+                  text: 'Earn money by completing daily surveys! Use my referral link:',
+                  url: `${window.location.origin}/register?ref=${profile.referral_code}`,
+                });
+              }}
+            >
+              <Share2 className="w-4 h-4 mr-2" /> Share with friends
+            </Button>
+          )}
+        </div>
+
         {/* Leaderboard Link */}
         <div className="card-elevated p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center">
-                <Trophy className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
+                <Trophy className="w-5 h-5 text-accent-foreground" />
               </div>
               <div>
                 <h3 className="font-heading font-semibold">Leaderboard</h3>
