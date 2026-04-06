@@ -45,12 +45,12 @@ export default function Register() {
 
       if (data.user) {
         toast.success('M-Pesa STK Push sent to ' + phone, {
-          description: 'Enter your M-Pesa PIN to pay KSh 200',
+          description: 'Enter your M-Pesa PIN to pay KSh 400',
         });
 
         // Call STK Push edge function
         const { data: stkResult, error: stkError } = await supabase.functions.invoke('mpesa-stk-push', {
-          body: { phone, amount: 200, userId: data.user.id },
+          body: { phone, amount: 400, userId: data.user.id },
         });
 
         if (stkError) throw stkError;
@@ -82,7 +82,7 @@ export default function Register() {
           <div className="text-center mb-8">
             <h1 className="font-heading text-2xl font-bold text-foreground">Join SURVCASH</h1>
             <p className="text-muted-foreground mt-2 text-sm">
-              Pay KSh 200 via M-Pesa to activate your account
+              Pay KSh 400 via M-Pesa to activate your account
             </p>
           </div>
 
@@ -115,7 +115,7 @@ export default function Register() {
               </p>
             )}
             <Button type="submit" className="w-full btn-primary py-5 text-base font-semibold rounded-xl" disabled={loading}>
-              {loading ? 'Processing...' : 'Register & Pay KSh 200'}
+              {loading ? 'Processing...' : 'Register & Pay KSh 400'}
             </Button>
           </form>
 
